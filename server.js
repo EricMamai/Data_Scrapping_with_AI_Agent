@@ -1,42 +1,53 @@
+"use strict";
+
+const crypto = require("node:crypto");
 const http = require("node:http");
-const fs = require("node:fs");
+const os = require("node:os");
 const path = require("node:path");
+const fs = require("node:fs");
+const { loadMasterKey, createVault } = require("./lib/vault");
+const { createStore } = require("./lib/store");
+const { createSenderFromEnv } = require("./lib/sms");
+const { createApp } = require("./lib/app");
 
-const files = new Map([
-  ["/", ["index.html", "text/html; charset=utf-8"]],
-  ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
-  ["/data.js", ["data.js", "text/javascript; charset=utf-8"]],
-  ["/app.js", ["app.js", "text/javascript; charset=utf-8"]],
-]);
+const port = Number(process.env.PORT || 3000);
+const host = "127.0.0.1";
+const dataDir = process.env.DATA_DIR || path.join(os.homedir(), ".wazi-registry");
 
-const server = http.createServer((request, response) => {
-  const entry = files.get(request.url);
-  if (!entry || !["GET", "HEAD"].includes(request.method)) {
-    response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-    response.end("Not found");
-    return;
-  }
-  fs.readFile(path.join(__dirname, entry[0]), (error, content) => {
-    if (error) {
-      console.error("Unable to serve application file:", error);
-      response.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
-      response.end("Unable to load application.");
-      return;
-    }
-    response.writeHead(200, {
-      "Content-Type": entry[1],
-      "Cache-Control": "no-store",
-      "X-Content-Type-Options": "nosniff",
-      "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
-    });
-    response.end(request.method === "HEAD" ? undefined : content);
-  });
+fs.mkdirSync(dataDir, { recursive: true });
+const vault = createVault(loadMasterKey(dataDir, process.env.APP_SECRET));
+const store = createStore(path.join(dataDir, "registry.sqlite"), vault);
+const sender = createSenderFromEnv(process.env);
+
+let adminToken = process.env.ADMIN_TOKEN;
+let generatedAdminToken = false;
+if (!adminToken) {
+  adminToken = crypto.randomBytes(18).toString("base64url");
+  generatedAdminToken = true;
+}
+
+const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`]);
+const handler = createApp({
+  store,
+  vault,
+  sender,
+  adminToken,
+  isAllowedHost: (value) => allowedHosts.has(value),
+  secureCookies: process.env.COOKIE_SECURE === "1",
 });
 
+const server = http.createServer(handler);
 server.on("error", (error) => {
-  console.error("Local server failed:", error.message);
+  console.error("Server failed:", error.message);
   process.exitCode = 1;
 });
-server.listen(3000, "127.0.0.1", () => {
-  console.log("Wazi demo is available at http://127.0.0.1:3000");
+server.listen(port, host, () => {
+  console.log(`Wazi registry is available at http://127.0.0.1:${port}`);
+  console.log(`Data directory: ${dataDir}`);
+  console.log(`SMS provider: ${sender.name}${sender.name === "console" ? " (codes are printed here, no real SMS is sent)" : ""}`);
+  if (generatedAdminToken) console.log(`Admin token for this run: ${adminToken}`);
 });
+
+for (const signal of ["SIGINT", "SIGTERM"]) {
+  process.on(signal, () => server.close(() => { store.close(); process.exit(0); }));
+}

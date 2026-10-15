@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102d29">
+  <title>Wazi | Consent-based adult registry</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Wazi home"><span class="brand-mark">w.</span> wazi<span class="brand-dot">.</span></a>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button id="tab-me" class="tab active" role="tab" aria-selected="true" aria-controls="panel-me">My registration</button>
+      <button id="tab-admin" class="tab" role="tab" aria-selected="false" aria-controls="panel-admin" tabindex="-1">Admin lookup</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">OPT-IN &middot; ADULTS 18+ &middot; KENYA</div>
+      <h1>Your details, <span>your choice</span>.</h1>
+      <p>Register yourself, keep your record up to date, or delete it at any time. We only store what you tell us, and only with your consent.</p>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section id="panel-me" class="panel" role="tabpanel" aria-labelledby="tab-me">
+      <div id="step-phone" class="step">
+        <h2>1. Verify your mobile number</h2>
+        <p class="hint">Enter your own Kenyan mobile number. We send a one-time code to confirm it is yours.</p>
+        <form id="phone-form" novalidate>
+          <label for="phone">Mobile number</label>
+          <div class="row"><input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="0712 345 678" required><button class="button primary" type="submit">Send code</button></div>
+          <p class="field-error" id="phone-error" role="alert"></p>
+        </form>
+        <form id="code-form" novalidate hidden>
+          <label for="code">6-digit code</label>
+          <div class="row"><input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" required><button class="button primary" type="submit">Verify</button></div>
+          <p class="hint" id="dev-hint" hidden>Local development: no real SMS is sent. The code is printed in the server terminal.</p>
+          <p class="field-error" id="code-error" role="alert"></p>
+          <button class="text-button" type="button" id="change-phone">Use a different number</button>
+        </form>
+      </div>
+
+      <div id="step-form" class="step" hidden>
+        <div class="step-head"><div><h2 id="form-title">2. Your details</h2><p class="hint">Verified number: <strong id="verified-phone"></strong></p></div><button class="text-button" type="button" id="sign-out">Sign out</button></div>
+        <form id="registration-form" novalidate>
+          <div class="grid">
+            <div><label for="firstName">First name</label><input id="firstName" name="firstName" autocomplete="given-name" required><p class="field-error" data-error="firstName" role="alert"></p></div>
+            <div><label for="secondName">Second name</label><input id="secondName" name="secondName" autocomplete="family-name" required><p class="field-error" data-error="secondName" role="alert"></p></div>
+            <div><label for="region">Region</label><select id="region" name="region" required><option value="">Select region</option></select><p class="field-error" data-error="region" role="alert"></p></div>
+            <div><label for="employment">Employment status</label><select id="employment" name="employment" required><option value="">Select status</option><option value="employed">Employed</option><option value="not_employed">Not employed</option></select><p class="field-error" data-error="employment" role="alert"></p></div>
+          </div>
+          <div id="employer-fields" class="grid" hidden>
+            <div><label for="sector">Employer type</label><select id="sector" name="sector"><option value="">Select type</option><option value="private">Private company</option><option value="government">Government</option></select><p class="field-error" data-error="sector" role="alert"></p></div>
+            <div><label for="employer">Company or government employer</label><input id="employer" name="employer" autocomplete="organization"><p class="field-error" data-error="employer" role="alert"></p></div>
+          </div>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="adultConfirmed"> <span>I confirm that I am 18 years or older.</span></label>
+            <p class="field-error" data-error="adultConfirmed" role="alert"></p>
+            <label class="check"><input type="checkbox" id="consent"> <span>I consent to Wazi storing these details about me. My phone number is stored encrypted, and I can change or delete my record at any time.</span></label>
+            <p class="field-error" data-error="consent" role="alert"></p>
+          </div>
+          <div class="actions"><button class="button primary" type="submit" id="save">Save my details</button><button class="button danger" type="button" id="delete" hidden>Delete my record</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="panel-admin" class="panel" role="tabpanel" aria-labelledby="tab-admin" hidden>
+      <div id="admin-login" class="step">
+        <h2>Admin sign-in</h2>
+        <p class="hint">Authorised administrators only. Every phone-number search is recorded in an audit log.</p>
+        <form id="admin-form" novalidate>
+          <label for="token">Admin token</label>
+          <div class="row"><input id="token" type="password" autocomplete="off" required><button class="button primary" type="submit">Sign in</button></div>
+          <p class="field-error" id="admin-error" role="alert"></p>
+        </form>
+      </div>
+      <div id="admin-console" class="step" hidden>
+        <div class="step-head"><div><h2>Search by mobile number</h2><p class="hint">Exact match only. Phone numbers are masked in results, and nothing is listed or exported in bulk.</p></div><button class="text-button" type="button" id="admin-sign-out">Sign out</button></div>
+        <form id="search-form" novalidate>
+          <label for="search-phone">Mobile number</label>
+          <div class="row"><input id="search-phone" inputmode="tel" placeholder="0712 345 678" required><button class="button primary" type="submit">Search</button></div>
+          <p class="field-error" id="search-error" role="alert"></p>
+        </form>
+        <div id="result" class="result" hidden></div>
+        <div class="stats"><div class="stat"><span class="stat-label">Registered people</span><strong id="total">0</strong></div></div>
+        <h3>Recent searches</h3>
+        <div class="table-scroll"><table><thead><tr><th scope="col">Time</th><th scope="col">Number ends in</th><th scope="col">Result</th></tr></thead><tbody id="audit"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Wazi &middot; Consent-based registry &middot; No national ID or religion is collected.</footer>
+</body>
+</html>

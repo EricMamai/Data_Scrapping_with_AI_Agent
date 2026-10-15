@@ -4,7 +4,12 @@
     {
       "label": "Wazi: Start localhost",
       "type": "shell",
-      "command": "npm start",
+      "command": "npm.cmd start",
+      "options": {
+        "env": {
+          "PATH": "${env:ProgramFiles}\\nodejs;${env:LOCALAPPDATA}\\Programs\\nodejs;${env:PATH}"
+        }
+      },
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {
@@ -15,7 +20,12 @@
     {
       "label": "Wazi: Test synthetic data",
       "type": "shell",
-      "command": "npm test",
+      "command": "npm.cmd test",
+      "options": {
+        "env": {
+          "PATH": "${env:ProgramFiles}\\nodejs;${env:LOCALAPPDATA}\\Programs\\nodejs;${env:PATH}"
+        }
+      },
       "group": "test",
       "problemMatcher": []
     }

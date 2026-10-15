@@ -1,13 +1,13 @@
 {
-  "name": "wazi-synthetic-data-demo",
-  "version": "1.0.0",
+  "name": "wazi-consent-registry",
+  "version": "2.0.0",
   "private": true,
-  "description": "A local-only synthetic adult directory and agent simulation.",
+  "description": "A consent-based adult registry with verified phone numbers and audited admin lookup.",
   "scripts": {
     "start": "node server.js",
     "test": "node --test"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.13"
   }
 }
