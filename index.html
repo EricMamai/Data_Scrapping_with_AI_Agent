@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102d29">
+  <title>Wazi | Synthetic data workspace</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/data.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Wazi home"><span class="brand-mark">w.</span> wazi<span class="brand-dot">.</span></a>
+    <div class="workspace-label">YOUR WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <a class="nav-link active" href="#overview" aria-current="page"><span aria-hidden="true">&#9638;</span> Overview</a>
+      <a class="nav-link" href="#directory"><span aria-hidden="true">&#9776;</span> Demo directory</a>
+      <a class="nav-link" href="#activity"><span aria-hidden="true">&#9678;</span> Agent activity</a>
+    </nav>
+    <div class="sidebar-note"><span class="small-label">BUILT WITH CARE</span><h3>Good data.<br>Better boundaries.</h3><p>Explore the workflow without collecting anyone's personal information.</p><span class="local-badge">Local-only workspace</span></div>
+    <div class="profile"><span class="avatar">D</span><div><strong>Demo workspace</strong><small>No account required</small></div></div>
+  </aside>
+  <main id="overview">
+    <header class="topbar"><span>Workspace <span class="slash">/</span> <strong>Overview</strong></span><span class="environment"><span class="status-dot"></span> Synthetic environment</span></header>
+    <section class="heading"><div><div class="eyebrow">A LITTLE CLARITY GOES A LONG WAY</div><h1>Your data, at a glance<span>.</span></h1><p>A clean, organized view of your fictional adult directory.</p></div><button id="run-agent" class="button primary"><span aria-hidden="true">&#9654;</span> Run demo agent</button></section>
+    <div class="privacy-banner"><span class="shield" aria-hidden="true">&#10003;</span><div><strong>Real possibilities. Zero real personal data.</strong><p>All records are fictional and over 18. No scraping, AI service, national IDs, religion, or real phone numbers.</p></div><span class="pill">DEMO MODE</span></div>
+    <section class="metrics" aria-label="Directory statistics">
+      <article class="metric"><div class="metric-label">Total demo records <span aria-hidden="true">&#9638;</span></div><strong id="total-count">0</strong><small>Unique synthetic identifiers</small></article>
+      <article class="metric"><div class="metric-label">Regions represented <span aria-hidden="true">&#9673;</span></div><strong id="region-count">0</strong><small>Illustrative regional groupings</small></article>
+      <article class="metric"><div class="metric-label">Employed <span aria-hidden="true">&#9633;</span></div><strong id="employed-count">0</strong><small>Fictional public &amp; private roles</small></article>
+      <article class="metric"><div class="metric-label">Duplicates blocked <span aria-hidden="true">&#10003;</span></div><strong id="duplicate-count">0</strong><small>Same demo ID never added twice</small></article>
+    </section>
+    <section class="panel directory" id="directory">
+      <div class="panel-heading"><div><h2>Demo directory <span id="record-badge" class="count-badge">0 records</span></h2><p>Sample records, neatly in one place.</p></div><button id="export" class="button secondary">Export demo CSV <span aria-hidden="true">&#8595;</span></button></div>
+      <div class="filters"><label class="search"><span aria-hidden="true">&#9906;</span><input id="search" type="search" placeholder="Search names, demo IDs, or employers..." aria-label="Search demo records"></label><label><span class="sr-only">Region</span><select id="region"><option value="">All regions</option></select></label><label><span class="sr-only">Employment status</span><select id="employment"><option value="">All employment</option><option>Employed</option><option>Not employed</option></select></label></div>
+      <div class="table-scroll"><table><caption class="sr-only">Fictional adult records; no real personal information</caption><thead><tr><th scope="col">PERSON / DEMO ID</th><th scope="col">REGION</th><th scope="col">AGE</th><th scope="col">EMPLOYMENT</th><th scope="col">EMPLOYER</th><th scope="col">CONTACT</th></tr></thead><tbody id="records"></tbody></table></div>
+      <div class="table-footer"><span id="results-summary"></span><div class="pagination"><button id="previous" class="button page-button" aria-label="Previous page">&#8592;</button><span id="page-label"></span><button id="next" class="button page-button" aria-label="Next page">&#8594;</button></div></div>
+    </section>
+    <div class="bottom-grid">
+      <section class="panel activity" id="activity"><div class="panel-heading"><div><h2>Agent activity</h2><p>A transparent simulation, not a live scraper.</p></div><span class="pill">SIMULATED</span></div><ol id="activity-log" aria-live="polite"></ol><p id="status" role="status">Demo workspace ready.</p></section>
+      <section class="panel safeguards"><div class="eyebrow">PRIVACY BY DESIGN</div><h2>Only what belongs here.</h2><p>This prototype generates its own data. It never visits external sites or requests personal details.</p><ul><li>Adults above 18 only</li><li>Duplicate detection by synthetic ID</li><li>No trackers or external services</li><li>Temporary, in-memory records</li></ul><button id="reset" class="text-button">Reset demo workspace &#8594;</button></section>
+    </div>
+    <footer>Wazi / A thoughtful space for data.<span>Synthetic data only &middot; Nothing saved after refresh</span></footer>
+  </main>
+</body>
+</html>

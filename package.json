@@ -1,0 +1,13 @@
+{
+  "name": "wazi-synthetic-data-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local-only synthetic adult directory and agent simulation.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
