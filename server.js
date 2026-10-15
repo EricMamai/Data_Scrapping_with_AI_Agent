@@ -42,7 +42,7 @@ server.on("error", (error) => {
   process.exitCode = 1;
 });
 server.listen(port, host, () => {
-  console.log(`Wazi registry is available at http://127.0.0.1:${port}`);
+  console.log(`AI Data Scrapper Ke registry is available at http://127.0.0.1:${port}`);
   console.log(`Data directory: ${dataDir}`);
   console.log(`SMS provider: ${sender.name}${sender.name === "console" ? " (codes are printed here, no real SMS is sent)" : ""}`);
   if (generatedAdminToken) console.log(`Admin token for this run: ${adminToken}`);

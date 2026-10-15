@@ -1,4 +1,4 @@
-# Wazi - consent-based adult registry
+# AI Data Scrapper Ke - consent-based adult registry
 
 A working local web app where adults (18+) register **their own** details and can
 update or delete them at any time. It is not a scraper and it does not look up
@@ -15,7 +15,7 @@ Each person must confirm they are 18+ and give explicit consent.
 
 Requires Node.js 22.13 or newer (no packages to install).
 
-1. In VS Code choose **Terminal > Run Task > Wazi: Start localhost**, or run `npm start`.
+1. In VS Code choose **Terminal > Run Task > AI Data Scrapper Ke: Start localhost**, or run `npm start`.
 2. Open <http://127.0.0.1:3000>.
 3. The terminal prints an **admin token** for that run. Set the `ADMIN_TOKEN`
    environment variable (16+ characters) to use a fixed one.

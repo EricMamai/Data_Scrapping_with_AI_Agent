@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Wazi: Start localhost",
+      "label": "AI Data Scrapper Ke: Start localhost",
       "type": "shell",
       "command": "npm.cmd start",
       "options": {
@@ -18,7 +18,7 @@
       }
     },
     {
-      "label": "Wazi: Test synthetic data",
+      "label": "AI Data Scrapper Ke: Run tests",
       "type": "shell",
       "command": "npm.cmd test",
       "options": {
